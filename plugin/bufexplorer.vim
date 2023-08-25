@@ -108,6 +108,7 @@ command! BufExplorer :call BufExplorer()
 command! ToggleBufExplorer :call ToggleBufExplorer()
 command! BufExplorerHorizontalSplit :call BufExplorerHorizontalSplit()
 command! BufExplorerVerticalSplit :call BufExplorerVerticalSplit()
+command! ToggleBufExplorerVertical :call ToggleBufExplorerVertical()
 
 " Set {{{2
 function! s:Set(var, default)
@@ -414,6 +415,15 @@ function! ToggleBufExplorer()
         call s:Close()
     else
         call BufExplorer()
+    endif
+endfunction
+
+" ToggleBufExplorerVertical {{{2
+function! ToggleBufExplorerVertical()
+    if exists("s:running") && s:running == 1 && bufname(winbufnr(0)) == s:name
+        call s:Close()
+    else
+        call BufExplorerVerticalSplit()
     endif
 endfunction
 
@@ -1372,6 +1382,10 @@ endif
 
 if !hasmapto('BufExplorerVerticalSplit') && g:bufExplorerDisableDefaultKeyMapping == 0
     nnoremap <script> <silent> <unique> <Leader>bv :BufExplorerVerticalSplit<CR>
+endif
+
+if !hasmapto('ToggleBufExplorerVertical') && g:bufExplorerDisableDefaultKeyMapping == 0
+    nnoremap <script> <silent> <unique> <Leader>btv :ToggleBufExplorerVertical<CR>
 endif
 
 " vim:ft=vim foldmethod=marker sw=4
